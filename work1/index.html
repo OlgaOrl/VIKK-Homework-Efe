@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kodutöö-1 16.sept 2024</title>
+    <style>
+        body {
+            background-color: black;
+        }
+
+        h1, h2, p, li, ul, ol, h3, h4 {
+            color: white;
+        }
+
+        div {
+            background-color: #333;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .status-screen {
+            background-color: #222;
+            padding: 15px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <h1>Kodutöö-1 16.sept 2024</h1>
+    <h2>Teema: Keemiatööstus</h2>
+
+    <form id="chemForm">
+        <input type="text" name="chem" id="chem" placeholder="Kemikaal" required>
+        <input type="number" name="qty" id="qty" placeholder="Kogus (L)" required>
+        <input type="submit" value="Sisesta">
+    </form>
+</div>
+
+<div class="status-screen">
+    <h3>Lao seis</h3>
+    <p id="status">Andmeid pole veel sisestatud.</p>
+</div>
+
+<script>
+    // Array to store submitted data
+    const submissionData = [];
+
+    // Function to handle form submission
+    document.getElementById('chemForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form from submitting in the traditional way
+
+        const chem = document.getElementById('chem').value.trim();
+        const qty = parseInt(document.getElementById('qty').value.trim());
+
+        // Check if the chemical already exists in the array
+        const existingEntry = submissionData.find(entry => entry.chem.toLowerCase() === chem.toLowerCase());
+
+        if (existingEntry) {
+            // If the chemical exists, update the quantity
+            existingEntry.qty += qty;
+        } else {
+            // If the chemical doesn't exist, create a new entry and add it to the array
+            submissionData.push({ chem, qty });
+        }
+
+        // Update the status screen
+        updateStatusScreen();
+
+        // Clear the form fields after submission
+        document.getElementById('chem').value = '';
+        document.getElementById('qty').value = '';
+    });
+
+    // Function to update the status screen
+    function updateStatusScreen() {
+        const statusDiv = document.getElementById('status');
+
+        if (submissionData.length === 0) {
+            statusDiv.innerHTML = 'No data submitted yet.';
+        } else {
+            let statusHTML = '<ul>';
+            submissionData.forEach(function(entry, index) {
+                statusHTML += `<li>Kemikaal: ${entry.chem}, <br> Kogus: ${entry.qty} L</li>`;
+            });
+            statusHTML += '</ul>';
+            statusDiv.innerHTML = statusHTML;
+        }
+    }
+</script>
+</body>
+</html>
