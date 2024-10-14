@@ -49,36 +49,27 @@
 </div>
 
 <script>
-    // Array to store submitted data
     const submissionData = [];
 
-    // Function to handle form submission
     document.getElementById('chemForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent form from submitting in the traditional way
+        event.preventDefault(); 
 
         const chem = document.getElementById('chem').value.trim();
         const qty = parseInt(document.getElementById('qty').value.trim());
-
-        // Check if the chemical already exists in the array
         const existingEntry = submissionData.find(entry => entry.chem.toLowerCase() === chem.toLowerCase());
 
         if (existingEntry) {
-            // If the chemical exists, update the quantity
             existingEntry.qty += qty;
         } else {
-            // If the chemical doesn't exist, create a new entry and add it to the array
             submissionData.push({ chem, qty });
         }
 
-        // Update the status screen
         updateStatusScreen();
 
-        // Clear the form fields after submission
         document.getElementById('chem').value = '';
         document.getElementById('qty').value = '';
     });
 
-    // Function to update the status screen
     function updateStatusScreen() {
         const statusDiv = document.getElementById('status');
 
